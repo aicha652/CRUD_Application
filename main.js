@@ -87,6 +87,16 @@ let readData = () => {
         ` 
     }
     document.getElementById('tbody').innerHTML = table
+
+    let deleteAll = document.getElementById('deleteAll')
+
+    if(dataPro.length > 0) {
+        deleteAll.innerHTML = '<button onclick="deleteAll()">Delete All</button>'
+        deleteAll.style.margin = '20px 0'
+    }
+    else {
+        deleteAll.innerHTML = ''
+    }
 }
 readData()
 
@@ -96,4 +106,10 @@ function deleteData(i) {
     dataPro.splice(i, 1);
     localStorage.product = JSON.stringify(dataPro)
     readData()
+}
+
+//delete All
+function deleteAll() {
+    localStorage.clear()
+    dataPro.splice(0)
 }
