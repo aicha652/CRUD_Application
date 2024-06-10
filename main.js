@@ -72,6 +72,7 @@ let readData = () => {
     for(let i = 0; i < dataPro.length; i++) {
         table = table + `
                     <tr>
+                        <td>${i}</td>
                         <td>${dataPro[i].title}</td>
                         <td>${dataPro[i].price}</td>
                         <td>${dataPro[i].taxes}</td>
@@ -81,10 +82,18 @@ let readData = () => {
                         <td>${dataPro[i].count}</td>
                         <td>${dataPro[i].category}</td>
                         <td><button id="update">update</button></td>
-                        <td><button id="delete">delete</button></td>
+                        <td><button onclick="deleteData(${i})" id="delete">delete</button></td>
                     </tr>
         ` 
     }
     document.getElementById('tbody').innerHTML = table
 }
 readData()
+
+//delete product
+
+function deleteData(i) {
+    dataPro.splice(i, 1);
+    localStorage.product = JSON.stringify(dataPro)
+    readData()
+}
