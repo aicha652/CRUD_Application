@@ -8,6 +8,8 @@ let count = document.getElementById('count')
 let category = document.getElementById('category')
 let submit = document.getElementById('submit')
 
+let tmp
+
 //get Total
 
 function getTotal() {
@@ -42,13 +44,20 @@ submit.onclick = () => {
         count: count.value,
         category: category.value
     }
-    if(newPro.count > 1) {
-        for(let i = 0; i < newPro.count; i++) {
+    if(submit.innerHTML === 'create') {
+        if(newPro.count > 1) {
+            for(let i = 0; i < newPro.count; i++) {
+                dataPro.push(newPro)
+            }
+        }
+        else {
             dataPro.push(newPro)
         }
     }
     else {
-        dataPro.push(newPro)
+        dataPro[tmp] = newPro
+        submit.innerHTML = 'create'
+        count.style.display = 'block'
     }
     //save localstorage
     localStorage.setItem('product', JSON.stringify(dataPro))
@@ -75,6 +84,7 @@ function clearData() {
 //read Data
 
 let readData = () => {
+    getTotal()
     let table = ' '
     for(let i = 0; i < dataPro.length; i++) {
         table = table + `
@@ -88,7 +98,7 @@ let readData = () => {
                         <td>${dataPro[i].total}</td>
                         <td>${dataPro[i].count}</td>
                         <td>${dataPro[i].category}</td>
-                        <td><button id="update">update</button></td>
+                        <td><button onclick="updateData(${i})" id="update">update</button></td>
                         <td><button onclick="deleteData(${i})" id="delete">delete</button></td>
                     </tr>
         ` 
@@ -120,4 +130,23 @@ function deleteAll() {
     localStorage.clear()
     dataPro.splice(0)
     readData()
+}
+
+
+//update
+function updateData(i){
+    title.value = dataPro[i].title
+    price.value = dataPro[i].price
+    taxes.value = dataPro[i].taxes
+    ads.value = dataPro[i].ads
+    discount.value = dataPro[i].discount
+    getTotal()
+    count.style.display = 'none'
+    category.value = dataPro[i].category
+    submit.innerHTML ='Update'
+    tmp = i
+    scroll({
+        top: 0,
+        behavior: 'smooth'
+    })
 }
