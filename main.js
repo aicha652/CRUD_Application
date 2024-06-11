@@ -42,7 +42,14 @@ submit.onclick = () => {
         count: count.value,
         category: category.value
     }
-    dataPro.push(newPro)
+    if(newPro.count > 1) {
+        for(let i = 0; i < newPro.count; i++) {
+            dataPro.push(newPro)
+        }
+    }
+    else {
+        dataPro.push(newPro)
+    }
     //save localstorage
     localStorage.setItem('product', JSON.stringify(dataPro))
 
@@ -91,7 +98,7 @@ let readData = () => {
     let deleteAll = document.getElementById('deleteAll')
 
     if(dataPro.length > 0) {
-        deleteAll.innerHTML = '<button onclick="deleteAll()">Delete All</button>'
+        deleteAll.innerHTML = `<button onclick="deleteAll()">Delete All(${dataPro.length})</button>`
         deleteAll.style.margin = '20px 0'
     }
     else {
@@ -112,4 +119,5 @@ function deleteData(i) {
 function deleteAll() {
     localStorage.clear()
     dataPro.splice(0)
+    readData()
 }
